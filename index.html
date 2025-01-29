@@ -127,14 +127,17 @@
             slides.forEach((slide, index) => {
                 slide.classList.remove('prev', 'active', 'next');
 
-                if (index === currentIndex) {
-                    slide.classList.add('active');
-                } else if (index === currentIndex - 1) {
+                // Предыдущий слайд
+                if (index === (currentIndex + slides.length - 1) % slides.length) {
                     slide.classList.add('prev');
-                } else if (index === currentIndex + 1) {
+                } 
+                // Следующий слайд
+                else if (index === (currentIndex + 1) % slides.length) {
                     slide.classList.add('next');
-                } else {
-                    slide.classList.remove('prev', 'active', 'next');
+                } 
+                // Активный слайд
+                else if (index === currentIndex) {
+                    slide.classList.add('active');
                 }
             });
 
@@ -144,20 +147,12 @@
         }
 
         prevButton.addEventListener('click', () => {
-            if (currentIndex > 0) {
-                currentIndex--;
-            } else {
-                currentIndex = slides.length - 1; // Переход к последнему слайду
-            }
+            currentIndex = (currentIndex + slides.length - 1) % slides.length;
             updateSlides();
         });
 
         nextButton.addEventListener('click', () => {
-            if (currentIndex < slides.length - 1) {
-                currentIndex++;
-            } else {
-                currentIndex = 0; // Переход к первому слайду
-            }
+            currentIndex = (currentIndex + 1) % slides.length;
             updateSlides();
         });
 
